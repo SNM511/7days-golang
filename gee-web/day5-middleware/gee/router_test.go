@@ -50,13 +50,13 @@ func TestGetRoute2(t *testing.T) {
 	n1, ps1 := r.getRoute("GET", "/assets/file1.txt")
 	ok1 := n1.pattern == "/assets/*filepath" && ps1["filepath"] == "file1.txt"
 	if !ok1 {
-		t.Fatal("pattern shoule be /assets/*filepath & filepath shoule be file1.txt")
+		t.Fatal("pattern should be /assets/*filepath & filepath should be file1.txt")
 	}
 
 	n2, ps2 := r.getRoute("GET", "/assets/css/test.css")
 	ok2 := n2.pattern == "/assets/*filepath" && ps2["filepath"] == "css/test.css"
 	if !ok2 {
-		t.Fatal("pattern shoule be /assets/*filepath & filepath shoule be css/test.css")
+		t.Fatal("pattern should be /assets/*filepath & filepath should be css/test.css")
 	}
 
 }
@@ -69,6 +69,6 @@ func TestGetRoutes(t *testing.T) {
 	}
 
 	if len(nodes) != 5 {
-		t.Fatal("the number of routes shoule be 4")
+		t.Fatal("the number of routes should be 4")
 	}
 }

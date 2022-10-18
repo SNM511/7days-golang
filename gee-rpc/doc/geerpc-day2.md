@@ -373,7 +373,7 @@ func main() {
 				log.Fatal("call Foo.Sum error:", err)
 			}
 			log.Println("reply:", reply)
-		}(i)
+    }(i)
 	}
 	wg.Wait()
 }

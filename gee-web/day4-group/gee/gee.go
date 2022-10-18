@@ -14,7 +14,7 @@ type (
 		prefix      string
 		middlewares []HandlerFunc // support middleware
 		parent      *RouterGroup  // support nesting
-		engine      *Engine       // all groups share a Engine instance
+		engine      *Engine       // all groups share one Engine instance
 	}
 
 	Engine struct {

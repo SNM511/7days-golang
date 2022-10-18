@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"geerpc"
 	"log"
 	"net"
 	"sync"
 	"time"
+
+	"geerpc"
 )
 
 func startServer(addr chan string) {

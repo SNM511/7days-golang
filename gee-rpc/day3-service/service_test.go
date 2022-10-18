@@ -2,7 +2,10 @@ package geerpc
 
 import (
 	"fmt"
+	"log"
 	"reflect"
+	"strings"
+	"sync"
 	"testing"
 )
 
@@ -15,7 +18,7 @@ func (f Foo) Sum(args Args, reply *int) error {
 	return nil
 }
 
-// it's not a exported Method
+// it's not an exported Method
 func (f Foo) sum(args Args, reply *int) error {
 	*reply = args.Num1 + args.Num2
 	return nil
@@ -45,4 +48,26 @@ func TestMethodType_Call(t *testing.T) {
 	argv.Set(reflect.ValueOf(Args{Num1: 1, Num2: 3}))
 	err := s.call(mType, argv, replyv)
 	_assert(err == nil && *replyv.Interface().(*int) == 4 && mType.NumCalls() == 1, "failed to call Foo.Sum")
+}
+
+func TestReflect(t *testing.T) {
+	var wg sync.WaitGroup
+	typ := reflect.TypeOf(&wg)
+	for i := 0; i < typ.NumMethod(); i++ {
+		method := typ.Method(i)
+		argv := make([]string, 0, method.Type.NumIn())
+		returns := make([]string, 0, method.Type.NumOut())
+		// j 从 1 开始，第 0 个入参是 wg 自己。
+		for j := 1; j < method.Type.NumIn(); j++ {
+			argv = append(argv, method.Type.In(j).Name())
+		}
+		for j := 0; j < method.Type.NumOut(); j++ {
+			returns = append(returns, method.Type.Out(j).Name())
+		}
+		log.Printf("func (w *%s) %s(%s) %s",
+			typ.Elem().Name(),
+			method.Name,
+			strings.Join(argv, ","),
+			strings.Join(returns, ","))
+	}
 }

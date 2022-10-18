@@ -7,18 +7,19 @@ package geerpc
 import (
 	"encoding/json"
 	"fmt"
-	"geerpc/codec"
 	"io"
 	"log"
 	"net"
 	"reflect"
 	"sync"
+
+	"geerpc/codec"
 )
 
 const MagicNumber = 0x3bef5c
 
 type Option struct {
-	MagicNumber int        // MagicNumber marks this's a geerpc request
+	MagicNumber int        // MagicNumber marks request a geerpc request
 	CodecType   codec.Type // client may choose different Codec to encode body
 }
 
@@ -84,8 +85,8 @@ func (server *Server) serveCodec(cc codec.Codec) {
 
 // request stores all information of a call
 type request struct {
-	h            *codec.Header // header of request
-	argv, replyv reflect.Value // argv and replyv of request
+	h           *codec.Header // header of request
+	argv, reply reflect.Value // argv and reply of request
 }
 
 func (server *Server) readRequestHeader(cc codec.Codec) (*codec.Header, error) {
@@ -123,12 +124,12 @@ func (server *Server) sendResponse(cc codec.Codec, h *codec.Header, body interfa
 }
 
 func (server *Server) handleRequest(cc codec.Codec, req *request, sending *sync.Mutex, wg *sync.WaitGroup) {
-	// TODO, should call registered rpc methods to get the right replyv
+	// TODO, should call registered rpc methods to get the right reply
 	// day 1, just print argv and send a hello message
 	defer wg.Done()
 	log.Println(req.h, req.argv.Elem())
-	req.replyv = reflect.ValueOf(fmt.Sprintf("geerpc resp %d", req.h.Seq))
-	server.sendResponse(cc, req.h, req.replyv.Interface(), sending)
+	req.reply = reflect.ValueOf(fmt.Sprintf("geerpc resp %d", req.h.Seq))
+	server.sendResponse(cc, req.h, req.reply.Interface(), sending)
 }
 
 // Accept accepts connections on the listener and serves requests

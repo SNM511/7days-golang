@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"geerpc"
-	"geerpc/codec"
 	"log"
 	"net"
 	"time"
+
+	"geerpc"
+	"geerpc/codec"
 )
 
 func startServer(addr chan string) {
@@ -33,7 +34,7 @@ func main() {
 	time.Sleep(time.Second)
 	// send options
 	_ = json.NewEncoder(conn).Encode(geerpc.DefaultOption)
-	cc := codec.NewGobCodec(conn)
+	cc  := codec.NewGobCodec(conn)
 	// send request & receive response
 	for i := 0; i < 5; i++ {
 		h := &codec.Header{

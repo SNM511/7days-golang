@@ -89,9 +89,7 @@ func init() {
 }
 ```
 
-我们定义了 2 种 Codec，`Gob` 和 `Json`，但是实际代码中只实现了 `Gob` 一种，事实上，2 者的实现非常接近，甚至只需要把 `gob` 换成 `json` 即可。
-
-首先定义 `GobCodec` 结构体，这个结构体由四部分构成，`conn` 是由构建函数传入，通常是通过 TCP 或者 Unix 建立 socket 时得到的链接实例，dec 和 enc 对应 gob 的 Decoder 和 Encoder，buf 是为了防止阻塞而创建的带缓冲的 `Writer`，一般这么做能提升性能。
+我们定义了 2 种 Codec，`Gob` 和 `Json`，但是实际代码中只实现了 `Gob` 一种，事实上，2 者的实现非常接近，甚至只需要把 `gob` 换成 `json` 即可。首先定义 `GobCodec` 结构体，这个结构体由四部分构成，`conn` 是由构建函数传入，通常是通过 TCP 或者 Unix 建立 socket 时得到的链接实例，dec 和 enc 对应 gob 的 Decoder 和 Encoder，buf 是为了防止阻塞而创建的带缓冲的 `Writer`，一般这么做能提升性能。
 
 [day1-codec/codec/gob.go](https://github.com/geektutu/7days-golang/tree/master/gee-rpc/day1-codec)
 
@@ -209,7 +207,7 @@ type Server struct{}
 // NewServer returns a new Server.
 func NewServer() *Server {
 	return &Server{}
-}
+} 
 
 // DefaultServer is the default instance of *Server.
 var DefaultServer = NewServer()

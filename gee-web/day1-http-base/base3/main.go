@@ -27,5 +27,13 @@ func main() {
 		}
 	})
 
+	r.GET("/hello/snm", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "come to snm's world! req: %v", req)
+	})
+
+	r.POST("/hello/snm/secret", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "come to snm's SECRET world! req: %v", req)
+	})
+
 	r.Run(":9999")
 }
